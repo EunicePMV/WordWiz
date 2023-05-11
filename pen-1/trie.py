@@ -4,6 +4,7 @@ from constants import *
 class TrieNode():
     #Initiates the Node with 26 None values representing each letter
     def __init__(self):
+        # nodes that is a list of TrieNode objects of list of None Values
         self.nodes:List[TrieNode | None] = [None for _ in range(26)]
         self.isWord = False
     
@@ -49,7 +50,13 @@ class Trie():
     
     #load values given that the Trie is saved
     def load(self):
-        with open(r"pen-1/trie.dat", "rb") as input_file:
+        # with open(r"pen-1/trie.dat", "rb") as input_file:
+        #     trie:Trie = pickle.load(input_file)
+        #     self.nodes = trie.nodes
+        #     input_file.close()
+
+        # linux version
+        with open(r"./trie.dat", "rb") as input_file:
             trie:Trie = pickle.load(input_file)
             self.nodes = trie.nodes
             input_file.close()
@@ -57,11 +64,21 @@ class Trie():
     #save the Trie object into a dat file
     def save(self):
         valid_words = []
-        with open('pen-1/dictionary.txt') as word_file:
+        # with open('pen-1/dictionary.txt') as word_file:
+        #     valid_words = list(word_file.read().split())
+        #     word_file.close()
+
+        # linux version
+        with open('./dictionary.txt') as word_file:
             valid_words = list(word_file.read().split())
             word_file.close()
+        
         for word in valid_words:
             self.insert(word)
 
-        with open(r"pen-1/trie.dat", "wb") as output_file:
+        # with open(r"pen-1/trie.dat", "wb") as output_file:
+        #     pickle.dump(self, output_file)
+
+        # linux version
+        with open(r"./trie.dat", "wb") as output_file:
             pickle.dump(self, output_file)
