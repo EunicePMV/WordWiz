@@ -68,11 +68,17 @@ class AIWordGenerator():
                           
                 if self.trie.search(self.convertWord()):
                     word = self.convertWord() 
+                    # print("word: ", word)
                     if word not in self.candidates and word not in self.attempts:
                         self.candidates[word] = self.localScore()
+                    # print("candidates101: ", self.candidates)
                 self.pool_stack.append(self.pool.pop(self.pool.index(letter)))
+                # print("pool: ", self.pool)
+                # print("pool_stack: ", self.pool_stack)
                 self.search(current_node, depth+1)
                 self.pool.append(self.pool_stack.pop(self.pool_stack.index(letter)))
+                # print("pool_stack: ", self.pool_stack)
+                # print("pop this letter: ", self.pool_stack.index(letter))
             self.globalScore -= current_node.frequency() if current_node is not None else 0
             self.word.pop()
             
@@ -131,3 +137,36 @@ def sample(word = None, pool = None):
         
     end = timer()
     print('finish at:', str(end - start))
+
+
+# Mastermind Pseudocode:
+
+# Input:
+# 	node: Node in a Trie
+# 	depth: The current recursion depth
+
+# Output:
+# 	[word, score] -> dictionary of words with a given score
+
+# Procedure:
+# FUNCTION search(node, depth):
+# 	if depth >= 5: 
+# 		return
+# 	for all letters in the pool of letter:
+# 		if max candidates is reached:
+# 			return
+# 		word -> add letter to word
+# 		current node -> the child node representation of letter
+# 		score -> add frequency of letter
+
+# 		if current node is not empty
+# 			 if current word is valid
+# 				if word is not attempted and is not a candidate
+# 					add word to candidates and score
+# 			add the current letter to stack
+# 			search(current node, depth+1)
+# 			retrieve the current letter from stack
+
+
+# FUNCTION getWordWithLowestScore([word, score])
+# 	return word with lowest sore
